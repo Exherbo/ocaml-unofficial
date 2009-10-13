@@ -10,7 +10,7 @@ LICENCES="BSD-3"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS="
-    strict [[ description = [ new sytax tree - breaks compatibility with older syntax tree] ]]
+    strict [[ description = [ new sytax tree - breaks compatibility with older syntax tree ] ]]
 "
 
 DEPENDENCIES="
