@@ -20,11 +20,13 @@ DEPENDENCIES="
 
 BUGS_TO="fauxmight@nosocomia.com"
 
-#DEFAULT_SRC_CONFIGURE_PARAMS=( --hates=docdir )
-DEFAULT_SRC_COMPILE_PARAMS=( world.opt )
-
 src_configure() {
     option strict && CAMLP5_MODE="--strict"
-    option !strict && CAMLP5_MODE="--compatible"
-    ./configure --prefix usr --bindir /usr/bin --mandir /usr/share/man --libdir /usr/lib "$CAMLP5_MODE"
+    option !strict && CAMLP5_MODE="--transitional"
+    ./configure --prefix usr --bindir /usr/bin --mandir /usr/share/man --libdir /usr/lib \
+        "$CAMLP5_MODE" || die "Configure failed!"
+}
+
+src_compile() {
+    make world.opt || die "Make failed!"
 }
