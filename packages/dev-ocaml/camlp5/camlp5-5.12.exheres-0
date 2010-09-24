@@ -3,7 +3,7 @@
 
 require multilib
 
-SUMMARY="A preprocessor-pretty-printer of OCaml"
+SUMMARY="Preprocessor-pretty-printer of OCaml"
 
 HOMEPAGE="http://pauillac.inria.fr/~ddr/camlp5/"
 DOWNLOADS="http://pauillac.inria.fr/~ddr/camlp5/distrib/src/${PNV}.tgz"
