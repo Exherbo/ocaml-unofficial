@@ -1,0 +1,41 @@
+# Copyright 2011 NAKAMURA Yoshitaka
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Objective Caml (OCaml) package manager"
+HOMEPAGE="http://projects.camlcity.org/projects/findlib.html"
+DOWNLOADS="http://download.camlcity.org/download/${PNV}.tar.gz"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+        dev-lang/ocaml
+"
+
+BUGS_TO=""
+
+src_configure() {
+    ./configure \
+        -config /etc/findlib.conf \
+        -sitelib /usr/lib/ocaml \
+        -mandir /usr/share/man
+}
+
+src_compile() {
+    edo make all opt
+}
+
+src_install() {
+    dodir /usr/${LIBDIR}/ocaml
+
+    edo make prefix="${IMAGE}" install
+
+    dobin src/findlib/ocamlfind_opt
+
+    edo rmdir "${IMAGE}"/usr/share/man/man3
+}
+
