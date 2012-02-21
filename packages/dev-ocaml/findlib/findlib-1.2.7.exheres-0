@@ -16,8 +16,6 @@ DEPENDENCIES="
         dev-lang/ocaml
 "
 
-BUGS_TO=""
-
 src_configure() {
     ./configure \
         -config /etc/findlib.conf \
