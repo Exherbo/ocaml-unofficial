@@ -18,7 +18,7 @@ DEPENDENCIES="
 src_configure() {
     edo ./configure \
         -config /etc/findlib.conf \
-        -sitelib /usr/lib/ocaml \
+        -sitelib /usr/${LIBDIR}/ocaml \
         -mandir /usr/share/man
 }
 
