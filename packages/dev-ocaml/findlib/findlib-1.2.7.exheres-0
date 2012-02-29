@@ -16,20 +16,20 @@ DEPENDENCIES="
 "
 
 src_configure() {
-    ./configure \
+    edo ./configure \
         -config /etc/findlib.conf \
         -sitelib /usr/lib/ocaml \
         -mandir /usr/share/man
 }
 
 src_compile() {
-    edo make all opt
+    emake all opt
 }
 
 src_install() {
     dodir /usr/${LIBDIR}/ocaml
 
-    edo make prefix="${IMAGE}" install
+    emake prefix="${IMAGE}" install
 
     dobin src/findlib/ocamlfind_opt
 
