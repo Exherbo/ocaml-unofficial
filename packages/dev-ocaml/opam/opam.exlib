@@ -24,8 +24,8 @@ DEPENDENCIES="
            net-misc/wget )
 
     recommendation:
-      dev-scm/git
-      net-misc/rsync
+      dev-scm/git [[ description = [ OPAM can synchronise repositories with Git ] ]]
+      net-misc/rsync  [[ description = [ OPAM can synchronise repositories with rsync ] ]]
 "
 
 DOWNLOADS+="
