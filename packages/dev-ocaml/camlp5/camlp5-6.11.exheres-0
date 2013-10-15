@@ -17,14 +17,14 @@ MYOPTIONS="
 
 DEPENDENCIES="
     build+run:
-        dev-lang/ocaml[>=3.08.0&<=3.12.0]
+        dev-lang/ocaml
 "
 
 BUGS_TO="fauxmight@nosocomia.com"
 
 # This OCaml specific configure file behaves very unlike
 # 'normal' (read autotools) configure files. Options are in the
-# form "--option value" rather than "--option=value" 
+# form "--option value" rather than "--option=value"
 # (' ' instead of '=')
 src_configure() {
     option strict && CAMLP5_MODE="--strict" || CAMLP5_MODE="--transitional"
@@ -36,8 +36,9 @@ src_configure() {
         "$CAMLP5_MODE" || die "Configure failed!"
 }
 
-# This OCaml specific makefile doesn't understand 'normal' 
+# This OCaml specific makefile doesn't understand 'normal'
 # (read autotools) make options like -j#
 src_compile() {
     make world.opt || die "Make failed!"
 }
+
