@@ -32,13 +32,13 @@ src_configure() {
         --prefix /usr \
         --bindir /usr/bin \
         --mandir /usr/share/man \
-        --libdir /usr/$(get_libdir) \
+        --libdir /usr/${LIBDIR} \
         "$CAMLP5_MODE" || die "Configure failed!"
 }
 
 # This OCaml specific makefile doesn't understand 'normal'
 # (read autotools) make options like -j#
 src_compile() {
-    make world.opt || die "Make failed!"
+    emake world.opt
 }
 
