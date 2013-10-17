@@ -37,10 +37,13 @@ http://ocamlgraph.lri.fr/download/${GRAPH}.tar.gz
 https://github.com/ocaml/ocaml-re/archive/${RE}.tar.gz
 "
 
+src_unpack() {
+    unpack "${FETCHEDDIR}"/${PNV}.tgz
+}
+
 src_prepare() {
-    for x in ${CUDF}.tar.gz ${EXTLIB}.tar.gz ${DOSE}.tar.gz \
-        ${CMDLINER}.tbz ${GRAPH}.tar.gz ${RE}.tar.gz; do
-        edo ln -s "${FETCHEDDIR}/${x}" "${WORK}/src_ext/"
+    for x in ${ARCHIVES}; do
+        [ "${x}" = "${PNV}" ] || edo ln -s "${FETCHEDDIR}/${x}" "${WORK}/src_ext/"
     done
 }
 
