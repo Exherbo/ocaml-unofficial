@@ -43,7 +43,7 @@ src_unpack() {
 
 src_prepare() {
     for x in ${ARCHIVES}; do
-        [ "${x}" = "${PNV}" ] || edo ln -s "${FETCHEDDIR}/${x}" "${WORK}/src_ext/"
+        [[ "${x}" = "${PNV}" ]] || edo ln -s "${FETCHEDDIR}/${x}" "${WORK}/src_ext/"
     done
 }
 
