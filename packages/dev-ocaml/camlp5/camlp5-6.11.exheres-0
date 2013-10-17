@@ -36,8 +36,3 @@ src_configure() {
         "$CAMLP5_MODE"
 }
 
-src_compile() {
-    default
-    emake
-}
-
