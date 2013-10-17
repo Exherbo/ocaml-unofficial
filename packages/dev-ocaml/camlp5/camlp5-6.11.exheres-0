@@ -20,6 +20,8 @@ DEPENDENCIES="
 
 BUGS_TO="fauxmight@nosocomia.com"
 
+DEFAULT_SRC_COMPILE_PARAMS=( world.opt )
+
 # This OCaml specific configure file behaves very unlike
 # 'normal' (read autotools) configure files. Options are in the
 # form "--option value" rather than "--option=value"
@@ -36,6 +38,6 @@ src_configure() {
 
 src_compile() {
     default
-    emake world.opt
+    emake
 }
 
