@@ -38,7 +38,7 @@ https://github.com/ocaml/ocaml-re/archive/${RE}.tar.gz
 "
 
 src_unpack() {
-    unpack "${FETCHEDDIR}"/${PNV}.tgz
+    unpack ${PNV}.tgz
 }
 
 src_prepare() {
