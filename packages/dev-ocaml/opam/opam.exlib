@@ -19,7 +19,7 @@ BUGS_TO="nicolas+exherbo@braud-santoni.eu"
 
 DEPENDENCIES="
     build+run:
-      dev-lang/ocaml
+      dev-lang/ocaml[threads]
       || ( net-misc/curl
            net-misc/wget )
 
@@ -36,6 +36,8 @@ http://erratique.ch/software/cmdliner/releases/${CMDLINER}.tbz
 http://ocamlgraph.lri.fr/download/${GRAPH}.tar.gz
 https://github.com/ocaml/ocaml-re/archive/${RE}.tar.gz
 "
+
+DEFAULT_SRC_COMPILE_PARAMS=( -j1 )
 
 src_unpack() {
     unpack ${PNV}.tgz
