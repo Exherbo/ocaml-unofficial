@@ -18,10 +18,10 @@ LICENCES="LGPL-3"
 BUGS_TO="nicolas+exherbo@braud-santoni.eu"
 
 DEPENDENCIES="
+    build:
+      net-misc/wget
     build+run:
       dev-lang/ocaml[threads]
-      || ( net-misc/curl
-           net-misc/wget )
 
     recommendation:
       dev-scm/git [[ description = [ OPAM can synchronise repositories with Git ] ]]
