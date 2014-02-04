@@ -1,0 +1,32 @@
+# Copyright 2014 Nicolas Braud-Santoni <nicolas+exherbo@braud-santoni.eu>
+# Distributed under the terms of the GNU General Public License v2
+
+require googlecode [ project=ocaml-${PN} suffix=tar.gz ]
+
+SUMMARY="Extended standard library for OCaml"
+
+LICENCES="LGPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-lang/ocaml
+        dev-ocaml/camlp4
+        dev-ocaml/findlib
+"
+
+DEFAULT_SRC_COMPILE_PARAMS=( -j1 minimal=1 )
+
+src_install() {
+    DIR="${IMAGE}$(ocamlfind printconf destdir)"
+    edo mkdir -p "$DIR"
+    edo ocamlfind install -destdir "$DIR" -patch-version ${PV} \
+        extlib META extLib.cma \
+        {enum,bitSet,dynArray,extArray,extHashtbl,extList,extString,global,IO,option,pMap,std,base64,refList,optParse,dllist}.{mli,cmi,cmx} extLib.cmi \
+        -optional extLib.cmxa extLib.cmxs extLib.a extLib.lib
+
+}
+DEFAULT_SRC_INSTALL_PARAMS=( -j1 minimal=1 )
+
