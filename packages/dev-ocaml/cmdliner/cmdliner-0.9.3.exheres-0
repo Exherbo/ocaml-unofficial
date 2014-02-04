@@ -1,0 +1,20 @@
+# Copyright 2014 Nicolas Braud-Santoni <nicolas+exherbo@braud-santoni.eu>
+# Distributed under the terms of the GNU General Public License v2
+
+require oasis
+
+SUMMARY="Functional library for CLI arguments parsing"
+DESCRIPTION="
+Cmdliner is an OCaml module for the declarative definition of CLI.
+It provides a simple and compositional mechanism to convert CLI arguments
+to OCaml values and pass them to your functions.
+The module automatically handles syntax errors, help messages and man pages.
+"
+HOMEPAGE="http://erratique.ch/software/${PN}"
+DOWNLOADS="${HOMEPAGE}/releases/${PNV}.tbz"
+
+LICENCES="BSD-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
