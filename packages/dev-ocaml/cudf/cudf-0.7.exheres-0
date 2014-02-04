@@ -1,0 +1,25 @@
+# Copyright 2014 Nicolas Braud-Santoni <nicolas+exherbo@braud-santoni.eu>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="CUDF dependency solver"
+HOMEPAGE="http://www.mancoosi.org/${PN}/"
+DOWNLOADS="https://gforge.inria.fr/frs/download.php/33593/${PNV}.tar.gz"
+
+LICENCES="LGPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+RESTRICT="test" #Requires unwritten dev-ocaml/oUnit
+
+DEPENDENCIES="
+    build+run:
+        dev-lang/ocaml
+        dev-ocaml/extlib
+        dev-ocaml/findlib
+"
+
+
+src_compile() {
+    emake -j1 all opt
+}
+
