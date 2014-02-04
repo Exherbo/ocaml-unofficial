@@ -1,0 +1,28 @@
+# Copyright 2014 Nicolas Braud-Santoni <nicolas+exherbo@braud-santoni.eu>
+# Distributed under the terms of the GNU General Public License v2
+
+# TODO: Handle scm repos (for which setup.ml needs to be generated)
+
+export_exlib_phases src_configure src_compile src_install
+
+DEPENDENCIES="
+    build+run:
+        dev-lang/ocaml
+        dev-ocaml/findlib
+"
+
+oasis_src_configure() {
+    edo ocaml setup.ml -configure --prefix "/usr" --libdir "/usr/${LIBDIR}"
+}
+
+oasis_src_compile() {
+    edo ocaml setup.ml -build
+}
+
+oasis_src_install() {
+    OCAMLFIND_DESTDIR="${IMAGE}$(ocamlfind printconf destdir)"
+    edo mkdir -p "${OCAMLFIND_DESTDIR}"
+    edo env OCAMLFIND_DESTDIR="${OCAMLFIND_DESTDIR}" \
+        ocaml setup.ml -install --destdir "${IMAGE}"
+}
+
