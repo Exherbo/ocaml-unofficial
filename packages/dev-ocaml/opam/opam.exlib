@@ -3,6 +3,8 @@
 
 require github [ user=OCamlPro rev=${PV} ]
 
+export_exlib_phases src_unpack src_prepare
+
 SUMMARY="Source-based package manager for OCaml."
 DESCRIPTION="
 OPAM is a source-based package manager for OCaml.
@@ -39,11 +41,11 @@ https://github.com/ocaml/ocaml-re/archive/${RE}.tar.gz
 
 DEFAULT_SRC_COMPILE_PARAMS=( -j1 )
 
-src_unpack() {
+opam_src_unpack() {
     unpack ${PNV}.tgz
 }
 
-src_prepare() {
+opam_src_prepare() {
     for x in ${ARCHIVES}; do
         [[ "${x}" = "${PNV}" ]] || edo ln -s "${FETCHEDDIR}/${x}" "${WORK}/src_ext/"
     done
