@@ -1,0 +1,34 @@
+# Distributed under the terms of the GNU General Public License v2
+# Copyright 2014 Nicolas Braud-Santoni <nicolas+exherbo@braud-santoni.eu>
+
+export_exlib_phases src_configure src_install
+
+SUMMARY="Tcl/Tk binding for OCaml"
+LICENCES="GPL-2" #plus linking exception
+
+BUGS_TO="nicolas+exherbo@braud-santoni.eu"
+
+DEPENDENCIES="
+    build+run:
+      dev-lang/ocaml[>=4.02.0]
+      dev-lang/tk[>=8.2]
+      x11-libs/libX11
+
+    build:
+      x11-proto/xproto
+
+"
+
+DEFAULT_SRC_COMPILE_PARAMS=( -j1 )
+
+labltk_src_configure() {
+    edo ./configure
+}
+
+labltk_src_install() {
+    edo mkdir -p "${IMAGE}"/usr/${LIBDIR}/ocaml/stublibs
+    default
+}
+
+DEFAULT_SRC_INSTALL_PARAMS=( BINDIR="${IMAGE}/usr/bin/" LIBDIR="${IMAGE}/usr/${LIBDIR}/ocaml" )
+
