@@ -24,7 +24,8 @@ BUGS_TO="nicolas+exherbo@braud-santoni.eu"
 
 DEPENDENCIES="
     build+run:
-      dev-lang/ocaml[tk]
+      dev-lang/ocaml
+      dev-ocaml/labltk
       x11-libs/libX11
       x11-libs/libXext
       x11-libs/libXmu
