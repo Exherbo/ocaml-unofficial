@@ -1,0 +1,38 @@
+# Distributed under the terms of the GNU General Public License v2
+# Copyright 2014 Nicolas Braud-Santoni <nicolas+exherbo@braud-santoni.eu>
+
+require github [ user=ocaml rev=$(ever replace 3 +) ]
+
+export_exlib_phases src_configure
+
+SUMMARY="Extensible parsers for OCaml"
+DESCRIPTION="
+Camlp4 provides a set of OCaml libraries that are used to define grammars as well
+as loadable syntax extensions of such grammars. Camlp4 stands for Caml
+Preprocessor and Pretty-Printer and one of its most important applications is
+the definition of domain-specific extensions of the syntax of OCaml.
+
+Camlp4 was part of the official OCaml distribution until its version 4.01.0.
+Since then it has been replaced by a simpler system which is easier to maintain
+and to learn: ppx rewriters and extension points.
+"
+
+LICENCES="LGPL-2"
+
+BUGS_TO="nicolas+exherbo@braud-santoni.eu"
+
+DEPENDENCIES="
+    build+run:
+      dev-lang/ocaml[>=4.02.0]
+"
+
+DEFAULT_SRC_COMPILE_PARAMS=( -j1 )
+
+WORK="${WORKBASE}"/${PN}-$(ever replace 3 -)
+
+camlp4_src_configure() {
+    edo ./configure
+}
+
+DEFAULT_SRC_INSTALL_PARAMS=( BINDIR="${IMAGE}/usr/bin/" LIBDIR="${IMAGE}/usr/${LIBDIR}/ocaml" )
+
