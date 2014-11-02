@@ -1,0 +1,22 @@
+# Distributed under the terms of the GNU General Public License v2
+# Copyright 2013 Nicolas Braud-Santoni <nicolas+exherbo@braud-santoni.eu>
+
+require oasis github [ user=ocaml pn=ocaml-re tag=ocaml-${PNV} ]
+
+SLOT="0"
+PLATFORMS="~amd64"
+SUMMARY="Pure OCaml regular-expression engine"
+
+HOMEPAGE="
+http://opam.ocamlpro.com/ [[ description = [ Official homepage ] ]]
+https://github.com/OCamlPro/opam [[ description = [ Project page on GitHub ] ]]
+"
+LICENCES="LGPL-3"
+
+BUGS_TO="nicolas+exherbo@braud-santoni.eu"
+
+DEPENDENCIES="
+    build+run:
+      dev-lang/ocaml
+"
+
