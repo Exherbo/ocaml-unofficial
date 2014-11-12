@@ -3,7 +3,7 @@
 
 # TODO: Handle scm repos (for which setup.ml needs to be generated)
 
-export_exlib_phases src_configure src_compile src_install
+export_exlib_phases src_configure src_compile src_install src_test
 
 DEPENDENCIES="
     build+run:
@@ -12,7 +12,8 @@ DEPENDENCIES="
 "
 
 oasis_src_configure() {
-    edo ocaml setup.ml -configure --prefix "/usr" --libdir "/usr/${LIBDIR}"
+    edo ocaml setup.ml -configure --prefix "/usr" --libdir "/usr/${LIBDIR}" \
+        $(expecting_tests --recommended --enable-tests)
 }
 
 oasis_src_compile() {
@@ -24,5 +25,9 @@ oasis_src_install() {
     edo mkdir -p "${OCAMLFIND_DESTDIR}"
     edo env OCAMLFIND_DESTDIR="${OCAMLFIND_DESTDIR}" \
         ocaml setup.ml -install --destdir "${IMAGE}"
+}
+
+oasis_src_test() {
+    edo ocaml setup.ml -test
 }
 
