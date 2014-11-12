@@ -3,6 +3,7 @@
 
 require labltk
 
+SLOT="0"
 PLATFORMS="~amd64"
 DOWNLOADS="https://forge.ocamlcore.org/frs/download.php/1455/${PNV}.tar.gz"
 
