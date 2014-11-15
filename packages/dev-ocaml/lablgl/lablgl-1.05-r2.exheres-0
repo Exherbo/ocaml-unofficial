@@ -23,12 +23,14 @@ DOWNLOADS="http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/dist/${PNV}.tar.gz"
 BUGS_TO="nicolas+exherbo@braud-santoni.eu"
 
 DEPENDENCIES="
+    build:
+        dev-ocaml/camlp4
     build+run:
-      dev-lang/ocaml
-      dev-ocaml/labltk
-      x11-libs/libX11
-      x11-libs/libXext
-      x11-libs/libXmu
+        dev-lang/ocaml
+        dev-ocaml/labltk
+        x11-libs/libX11
+        x11-libs/libXext
+        x11-libs/libXmu
 "
 
 src_prepare() {
