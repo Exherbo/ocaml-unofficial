@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # Copyright 2013 Nicolas Braud-Santoni <nicolas+exherbo@braud-santoni.eu>
 
-require github [ user=OCamlPro rev=${PV} ]
+require github [ user=OCamlPro ]
 
 export_exlib_phases src_unpack src_prepare
 

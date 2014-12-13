@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # Copyright 2014 Nicolas Braud-Santoni <nicolas+exherbo@braud-santoni.eu>
 
-require github [ user=ocaml rev=$(ever replace 3 +) ]
+require github [ user=ocaml tag=$(ever replace 3 +) ]
 
 export_exlib_phases src_configure
 
@@ -28,8 +28,6 @@ DEPENDENCIES="
 "
 
 DEFAULT_SRC_COMPILE_PARAMS=( -j1 )
-
-WORK="${WORKBASE}"/${PN}-$(ever replace 3 -)
 
 camlp4_src_configure() {
     edo ./configure
