@@ -83,8 +83,13 @@ ocaml_src_install() {
     dodir /usr/include
     dosym /usr/${LIBDIR}/ocaml/caml /usr/include
 
-    # remove references to ${IMAGE} from ld.conf, the build doesn't deal with $(DESTDIR)
-    edo sed -i -e "s:${IMAGE}::g" "${IMAGE}/usr/${LIBDIR}/ocaml/ld.conf"
+    # remove references to ${IMAGE}
+    edo sed \
+        -e "s:${IMAGE}::g" \
+        -i "${IMAGE}"/usr/${LIBDIR}/ocaml/ld.conf
+    edo sed \
+        -e "s|^\(CAMLRUN=\).*|\1/usr/bin/ocamlrun|" \
+        -i "${IMAGE}"/usr/${LIBDIR}/ocaml/Makefile.config
 
     emagicdocs
 }
