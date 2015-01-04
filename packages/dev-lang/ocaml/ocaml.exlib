@@ -30,7 +30,6 @@ UPSTREAM_DOCUMENTATION="http://caml.inria.fr/resources/doc/index.en.html"
 MYOPTIONS="
     doc      [[ description = [ Install OCaml's manpages ] ]]
     ncurses
-    threads
 "
 
 DEPENDENCIES="
@@ -50,7 +49,6 @@ ocaml_src_configure() {
 
     RAW_LDFLAGS=$(raw-ldflags) edo ./configure                  \
         $(option ncurses || echo "-no-curses")                  \
-        $(option threads || echo "-no-pthread")                 \
         --host ${CHOST}                                         \
         --prefix /usr                                           \
         --bindir /usr/bin                                       \
