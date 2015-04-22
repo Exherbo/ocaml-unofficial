@@ -40,6 +40,8 @@ DEPENDENCIES="
         ncurses? ( sys-libs/ncurses )
 "
 
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/Fix-build-prefixed-tools.patch )
+
 
 export_exlib_phases src_configure src_compile src_install
 
@@ -49,47 +51,50 @@ ocaml_src_configure() {
 
     RAW_LDFLAGS=$(raw-ldflags) edo ./configure                  \
         $(option ncurses || echo "-no-curses")                  \
-        --host ${CHOST}                                         \
+        -cc ${CC}                                               \
+        -partialld "${LD} -r"                                   \
+        --host $(exhost --build)                                \
+        --target $(exhost --target)                             \
         --prefix /usr                                           \
-        --bindir /usr/bin                                       \
-        --libdir /usr/${LIBDIR}/ocaml                           \
+        --bindir /usr/$(exhost --target)/bin                    \
+        --libdir /usr/$(exhost --target)/lib/ocaml              \
         --mandir /usr/share/man
 }
 
 
 ocaml_src_compile() {
     # parallel builds are broken so often, its not even worth trying anymore
-    emake -j1 world
-    emake -j1 opt opt.opt
+    emake -j1 AR=${AR} world
+    emake -j1 AR=${AR} opt opt.opt
 }
 
 ocaml_src_install() {
-    emake BINDIR="${IMAGE}/usr/bin"                 \
-          LIBDIR="${IMAGE}/usr/${LIBDIR}/ocaml" \
+    emake BINDIR="${IMAGE}/usr/$(exhost --target)/bin"       \
+          LIBDIR="${IMAGE}/usr/$(exhost --target)/lib/ocaml" \
           MANDIR="${IMAGE}/usr/share/man" install
 
     # empty directory
-    edo rmdir "${IMAGE}/usr/${LIBDIR}/ocaml/ocamldoc/custom"
+    edo rmdir "${IMAGE}/usr/$(exhost --target)/lib/ocaml/ocamldoc/custom"
 
     # Remove man directory if needed
     option !doc && edo rm -rf "${IMAGE}"/usr/share/man/man3
 
     # compiler libraries
-    dodir /usr/${LIBDIR}/ocaml/compiler-libs
-    insinto /usr/${LIBDIR}/ocaml/compiler-libs
+    dodir /usr/$(exhost --target)/lib/ocaml/compiler-libs
+    insinto /usr/$(exhost --target)/lib/ocaml/compiler-libs
     doins "${WORK}"/{utils,typing,parsing}/*.{mli,cmi,cmo,cmx,o}
 
     # headers
-    dodir /usr/include
-    dosym /usr/${LIBDIR}/ocaml/caml /usr/include
+    dodir /usr/$(exhost --target)/include
+    dosym /usr/$(exhost --target)/lib/ocaml/caml /usr/$(exhost --target)/include
 
     # remove references to ${IMAGE}
     edo sed \
         -e "s:${IMAGE}::g" \
-        -i "${IMAGE}"/usr/${LIBDIR}/ocaml/ld.conf
+        -i "${IMAGE}"/usr/$(exhost --target)/lib/ocaml/ld.conf
     edo sed \
-        -e "s|^\(CAMLRUN=\).*|\1/usr/bin/ocamlrun|" \
-        -i "${IMAGE}"/usr/${LIBDIR}/ocaml/Makefile.config
+        -e "s|^\(CAMLRUN=\).*|\1/usr/$(exhost --target)/bin/ocamlrun|" \
+        -i "${IMAGE}"/usr/$(exhost --target)/lib/ocaml/Makefile.config
 
     emagicdocs
 }
