@@ -33,5 +33,8 @@ camlp4_src_configure() {
     edo ./configure
 }
 
-DEFAULT_SRC_INSTALL_PARAMS=( BINDIR="${IMAGE}/usr/bin/" LIBDIR="${IMAGE}/usr/${LIBDIR}/ocaml" )
+DEFAULT_SRC_INSTALL_PARAMS=(
+    BINDIR="${IMAGE}/usr/$(exhost --target)/bin/"
+    LIBDIR="${IMAGE}/usr/$(exhost --target)/lib/ocaml"
+)
 
