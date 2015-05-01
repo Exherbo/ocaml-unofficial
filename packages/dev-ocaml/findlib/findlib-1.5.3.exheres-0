@@ -18,7 +18,8 @@ DEPENDENCIES="
 src_configure() {
     edo ./configure \
         -config /etc/findlib.conf \
-        -sitelib /usr/${LIBDIR}/ocaml \
+        -bindir /usr/$(exhost --target)/bin \
+        -sitelib /usr/$(exhost --target)/lib/ocaml \
         -mandir /usr/share/man
 }
 
@@ -27,7 +28,7 @@ src_compile() {
 }
 
 src_install() {
-    dodir /usr/${LIBDIR}/ocaml
+    dodir /usr/$(exhost --target)/lib/ocaml
 
     emake prefix="${IMAGE}" install
 
