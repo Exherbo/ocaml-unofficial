@@ -26,9 +26,9 @@ labltk_src_configure() {
 }
 
 labltk_src_install() {
-    edo mkdir -p "${IMAGE}"/usr/${LIBDIR}/ocaml/stublibs
+    edo mkdir -p "${IMAGE}"/usr/$(exhost --target)/lib/ocaml/stublibs
     default
 }
 
-DEFAULT_SRC_INSTALL_PARAMS=( BINDIR="${IMAGE}/usr/bin/" LIBDIR="${IMAGE}/usr/${LIBDIR}/ocaml" )
+DEFAULT_SRC_INSTALL_PARAMS=( BINDIR="${IMAGE}/usr/$(exhost --target)/bin/" LIBDIR="${IMAGE}/usr/$(exhost --target)/lib/ocaml" )
 
