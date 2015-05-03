@@ -43,8 +43,8 @@ src_compile() {
 }
 
 src_install() {
-    edo mkdir -p "${IMAGE}"{usr/bin,$(ocamlc -where)/stublibs}
-    emake install
+    edo mkdir -p "${IMAGE}"{usr/$(exhost --target)/bin,$(ocamlc -where)/stublibs}
+    emake BINDIR="${IMAGE}/usr/$(exhost --target)/bin" install
     emagicdocs
 }
 
