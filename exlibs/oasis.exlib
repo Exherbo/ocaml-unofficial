@@ -12,7 +12,7 @@ DEPENDENCIES="
 "
 
 oasis_src_configure() {
-    edo ocaml setup.ml -configure --prefix "/usr" --libdir "/usr/${LIBDIR}" \
+    edo ocaml setup.ml -configure --prefix "/usr" --libdir "/usr/$(exhost --target)/lib" \
         $(expecting_tests --recommended --enable-tests)
 }
 
