@@ -3,8 +3,8 @@
 
 SUMMARY="Preprocessor-pretty-printer of OCaml"
 
-HOMEPAGE="http://pauillac.inria.fr/~ddr/camlp5/"
-DOWNLOADS="http://pauillac.inria.fr/~ddr/camlp5/distrib/src/${PNV}.tgz"
+HOMEPAGE="http://camlp5.gforge.inria.fr/"
+DOWNLOADS="http://camlp5.gforge.inria.fr/distrib/src/${PNV}.tgz"
 
 LICENCES="BSD-3"
 SLOT="0"
@@ -13,9 +13,11 @@ MYOPTIONS="
     strict [[ description = [ new sytax tree - breaks compatibility with older syntax tree ] ]]
 "
 
+# NOTE: camlp5 has lower _and_ upper bounds on ocaml versions!
+#       Be sure to check when bumping.
 DEPENDENCIES="
     build+run:
-        dev-lang/ocaml
+        dev-lang/ocaml[>=1.07&<=4.03.0]
 "
 
 BUGS_TO="fauxmight@nosocomia.com"
@@ -29,10 +31,8 @@ DEFAULT_SRC_COMPILE_PARAMS=( world.opt )
 src_configure() {
     option strict && CAMLP5_MODE="--strict" || CAMLP5_MODE="--transitional"
     edo ./configure \
-        --prefix /usr \
-        --bindir /usr/bin \
+        --prefix /usr/$(exhost --target) \
         --mandir /usr/share/man \
-        --libdir /usr/${LIBDIR} \
         "$CAMLP5_MODE"
 }
 
