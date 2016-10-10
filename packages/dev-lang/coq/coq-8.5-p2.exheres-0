@@ -5,5 +5,3 @@ require coq
 
 PLATFORMS="~amd64"
 
-DOWNLOADS="http://coq.inria.fr/distrib/V${PV}/files/${PNV}.tar.gz"
-

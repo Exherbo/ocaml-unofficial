@@ -1,7 +1,23 @@
 # Copyright 2012-2013 Nicolas Braud-Santoni <nicolas+exherbo@braud-santoni.eu>
 # Distributed under the terms of the GNU General Public License v2
 
-export_exlib_phases src_configure src_install
+require elisp-module
+
+export_exlib_phases src_configure src_compile src_install
+
+MY_PV="${PV/-p/pl}"
+
+if ever is_scm; then
+    SCM_REPOSITORY="https://github.com/coq/coq"
+    if [[ $PV == scm ]]; then
+        SCM_BRANCH="trunk"
+    else
+        SCM_BRANCH="v$(ever range 1-2)"
+    fi
+    require scm-git
+else
+    DOWNLOADS="https://coq.inria.fr/distrib/V${MY_PV}/files/${PN}-${MY_PV}.tar.gz"
+fi
 
 HOMEPAGE="http://coq.inria.fr/"
 SUMMARY="A proof assistant"
@@ -15,29 +31,70 @@ development of machine-checked proofs.
 LICENCES="LGPL-2.1"
 SLOT="0"
 MYOPTIONS="
-    gtk
+    gtk [[ description = [ Build the CoqIDE tool ] ]]
 "
 
 DEPENDENCIES="
     build+run:
-      dev-lang/ocaml
-      gtk? ( dev-ocaml/lablgtk )
+        !dev-lang/ocaml[=4.02.0] [[ note = [ Entirely unsupported ] ]]
+        dev-ocaml/camlp5[>=6.02]
+        dev-ocaml/findlib
+        gtk? ( dev-ocaml/lablgtk[gtksourceview(-)] )
+    suggestion:
+        app-editors/emacs  [[ description = [ Proof General emacs plugin ] ]]
+        x11-apps/xdg-utils [[ description = [ Coq will use xdg-open for URLs ] ]]
 "
+
+if ever at_least 8.6; then
+    DEPENDENCIES+="
+        build+run:
+            dev-lang/ocaml[>=4.01.0]
+"
+else
+    DEPENDENCIES+="
+        build+run:
+            dev-lang/ocaml[>=3.12.1]
+"
+fi
+
+WORK="${WORKBASE}/${PN}-${MY_PV}"
+
+# Coq 8.5pl2 has a missing make ordering dependency in the test suite
+# This has been fixed in the 8.5 branch, to be released as 8.5pl3
+if ! ever at_least 8.5-p3; then
+    DEFAULT_SRC_TEST_PARAMS=( -j1 )
+fi
 
 coq_src_configure() {
     local CONFIG=(
-        --prefix /usr
-        --libdir /usr/"${LIBDIR}"
-        $(option gtk "--lablgtkdir /usr/${LIBDIR}/ocaml/lablgtk2/" "--coqide no")
-        --opt
+        -prefix /usr/$(exhost --target)
+        -configdir /etc
+        -datadir /usr/share/coq
+        -mandir /usr/share/man
+        -docdir /usr/share/doc/${PNV}
+        -emacslib "${ELISP_SITE_LISP}"
+        -coqdocdir /usr/share/doc/coqdoc-${PV}
+        -usecamlp5
+        -camlp5dir /usr/$(exhost --target)/lib/ocaml/camlp5
+        # TODO: Determine deps
+        -with-geoproof no
+        -browser 'xdg-open %s'
+        $(option gtk "-lablgtkdir /usr/$(exhost --target)/lib/ocaml/lablgtk2/" "-coqide no")
+        -native-compiler yes
     )
 
     edo ./configure "${CONFIG[@]}"
 }
 
+coq_src_compile() {
+    export CAML_LD_LIBRARY_PATH="${WORK}/kernel/byterun"
+    default
+}
+
 coq_src_install() {
     emake COQINSTALLPREFIX="${IMAGE}" install
-    edo rmdir "${IMAGE}/usr/${LIBDIR}/user-contrib"
+    option gtk && edo rmdir "${IMAGE}"/etc
+    edo rmdir "${IMAGE}"/usr/$(exhost --target)/lib/coq/user-contrib
     emagicdocs
 }
 
