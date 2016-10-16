@@ -40,9 +40,6 @@ DEPENDENCIES="
         ncurses? ( sys-libs/ncurses )
 "
 
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/Fix-build-prefixed-tools.patch )
-
-
 export_exlib_phases src_configure src_compile src_install
 
 ocaml_src_configure() {
