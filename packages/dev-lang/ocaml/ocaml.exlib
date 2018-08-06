@@ -20,7 +20,7 @@ http://ocaml.org/                        [[ description = [ Community-driven web
 LICENCES="|| ( LGPL-2 QPL-1.0 )"
 
 MY_PNV=${PN}-$(ever replace 3 +)
-DOWNLOADS="http://caml.inria.fr/pub/distrib/${PN}-$(ever range 1-2)/${MY_PNV}.tar.xz"
+DOWNLOADS="http://caml.inria.fr/pub/distrib/${PN}-$(ever range 1-2)/${MY_PNV}.tar.gz"
 WORK="${WORKBASE}"/${MY_PNV}
 
 BUGS_TO="fauxmight@nosocomia.com nicolas+exherbo@braud-santoni.eu"
@@ -61,17 +61,13 @@ ocaml_src_configure() {
 
 ocaml_src_compile() {
     # parallel builds are broken so often, its not even worth trying anymore
-    emake -j1 AR=${AR} world
-    emake -j1 AR=${AR} opt opt.opt
+    emake AR=${AR} world.opt
 }
 
 ocaml_src_install() {
     emake BINDIR="${IMAGE}/usr/$(exhost --target)/bin"       \
           LIBDIR="${IMAGE}/usr/$(exhost --target)/lib/ocaml" \
           MANDIR="${IMAGE}/usr/share/man" install
-
-    # empty directory
-    edo rmdir "${IMAGE}/usr/$(exhost --target)/lib/ocaml/ocamldoc/custom"
 
     # Remove man directory if needed
     option !doc && edo rm -rf "${IMAGE}"/usr/share/man/man3
@@ -84,14 +80,6 @@ ocaml_src_install() {
     # headers
     dodir /usr/$(exhost --target)/include
     dosym /usr/$(exhost --target)/lib/ocaml/caml /usr/$(exhost --target)/include
-
-    # remove references to ${IMAGE}
-    edo sed \
-        -e "s:${IMAGE}::g" \
-        -i "${IMAGE}"/usr/$(exhost --target)/lib/ocaml/ld.conf
-    edo sed \
-        -e "s|^\(CAMLRUN=\).*|\1/usr/$(exhost --target)/bin/ocamlrun|" \
-        -i "${IMAGE}"/usr/$(exhost --target)/lib/ocaml/Makefile.config
 
     emagicdocs
 }
