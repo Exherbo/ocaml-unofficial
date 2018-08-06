@@ -1,10 +1,12 @@
 # Copyright 2009 A Frederick Christensen <fauxmight@nosocomia.com>
 # Distributed under the terms of the GNU General Public License v2
 
+MY_PV="rel$(ever replace_all '' ${PV})"
+require github [ user='camlp5' ]
+
 SUMMARY="Preprocessor-pretty-printer of OCaml"
 
-HOMEPAGE="http://camlp5.gforge.inria.fr/"
-DOWNLOADS="http://camlp5.gforge.inria.fr/distrib/src/${PNV}.tgz"
+HOMEPAGE="https://camlp5.github.io/"
 
 LICENCES="BSD-3"
 SLOT="0"
@@ -17,12 +19,10 @@ MYOPTIONS="
 #       Be sure to check when bumping.
 DEPENDENCIES="
     build+run:
-        dev-lang/ocaml[>=1.07&<=4.03.0]
+        dev-lang/ocaml
 "
 
 BUGS_TO="fauxmight@nosocomia.com"
-
-DEFAULT_SRC_COMPILE_PARAMS=( world.opt )
 
 # This OCaml specific configure file behaves very unlike
 # 'normal' (read autotools) configure files. Options are in the
