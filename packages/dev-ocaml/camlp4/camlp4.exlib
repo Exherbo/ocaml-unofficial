@@ -20,8 +20,6 @@ and to learn: ppx rewriters and extension points.
 LICENCES="LGPL-2"
 SLOT="0"
 
-BUGS_TO="nicolas+exherbo@braud-santoni.eu"
-
 DEPENDENCIES="
     build+run:
       dev-lang/ocaml[>=4.02.0]

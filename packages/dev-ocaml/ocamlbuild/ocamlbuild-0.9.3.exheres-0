@@ -17,8 +17,6 @@ DEPENDENCIES="
         dev-lang/ocaml[>=4.03.0]
 "
 
-BUGS_TO="hasufell@posteo.de"
-
 src_configure() {
     emake configure
 }

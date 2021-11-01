@@ -6,8 +6,6 @@ export_exlib_phases src_configure src_install
 SUMMARY="Tcl/Tk binding for OCaml"
 LICENCES="GPL-2" #plus linking exception
 
-BUGS_TO="nicolas+exherbo@braud-santoni.eu"
-
 DEPENDENCIES="
     build:
       x11-proto/xorgproto

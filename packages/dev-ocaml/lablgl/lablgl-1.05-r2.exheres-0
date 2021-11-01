@@ -20,7 +20,6 @@ https://forge.ocamlcore.org/projects/${PN}/ [[ description = [ Project page on t
 LICENCES="BSD-3"
 
 DOWNLOADS="http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/dist/${PNV}.tar.gz"
-BUGS_TO="nicolas+exherbo@braud-santoni.eu"
 
 DEPENDENCIES="
     build:

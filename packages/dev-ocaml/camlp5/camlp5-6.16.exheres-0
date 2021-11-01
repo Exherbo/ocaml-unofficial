@@ -20,8 +20,6 @@ DEPENDENCIES="
         dev-lang/ocaml[>=1.07&<=4.03.0]
 "
 
-BUGS_TO="fauxmight@nosocomia.com"
-
 DEFAULT_SRC_COMPILE_PARAMS=( world.opt )
 
 # This OCaml specific configure file behaves very unlike
