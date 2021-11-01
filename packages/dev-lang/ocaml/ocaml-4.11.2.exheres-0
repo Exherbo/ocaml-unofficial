@@ -6,3 +6,7 @@ require ocaml
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 
+DEFAULT_SRC_PREPARE_PATCHES+=(
+    "${FILES}"/${PN}-Dynamically-allocate-the-alternate-signal-stack-1026.patch
+)
+

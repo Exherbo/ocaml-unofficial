@@ -2,7 +2,8 @@
 # Copyright 2012-2013 Nicolas Braud-Santoni   <nicolas+exherbo@braud-santoni.eu>
 # Copyright 2009      A Frederick Christensen <fauxmight@nosocomia.com>
 # Copyright 2008      Saleem Abdulrasool      <compnerd@compnerd.org>
-require flag-o-matic
+
+export_exlib_phases src_prepare src_compile src_install
 
 SUMMARY="A general-purpose programming language, designed for safety and reliability."
 DESCRIPTION="
@@ -27,49 +28,39 @@ UPSTREAM_DOCUMENTATION="https://caml.inria.fr/resources/doc/index.en.html"
 
 MYOPTIONS="
     doc      [[ description = [ Install OCaml's manpages ] ]]
-    ncurses
+    spacetime [[ description = [ Build the spacetime memory profiler ] ]]
 "
 
 DEPENDENCIES="
-    build:
-      app-arch/xz
-
     build+run:
-        ncurses? ( sys-libs/ncurses )
+        spacetime? ( dev-libs/libunwind )
 "
 
-export_exlib_phases src_configure src_compile src_install
+DEFAULT_SRC_CONFIGURE_PARAMS+=(
+    --libdir=/usr/$(exhost --target)/lib/ocaml
+    # We should probably not pass this, but it's needed for dev-games/weidu
+    --disable-force-safe-string
+    --enable-flambda
+)
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES+=(
+    spacetime
+)
 
-ocaml_src_configure() {
-    # ocamlopt uses -pg. -pg and -fomit-frame-pointer conflict
-    filter-flags -fomit-frame-pointer
+ocaml_src_prepare() {
+    default
 
-    RAW_LDFLAGS=$(raw-ldflags) edo ./configure                  \
-        $(option ncurses || echo "-no-curses")                  \
-        -cc ${CC}                                               \
-        -partialld "${LD} -r"                                   \
-        --host $(exhost --build)                                \
-        --target $(exhost --target)                             \
-        --prefix /usr                                           \
-        --bindir /usr/$(exhost --target)/bin                    \
-        --libdir /usr/$(exhost --target)/lib/ocaml              \
-        --mandir /usr/share/man
+    edo sed -e 's|\(^MKDLL=.*\)|\1 $(LDFLAGS)|' \
+        -e 's|\(^OC_CFLAGS=.*\)|\1 $(LDFLAGS)|' \
+        -e 's|\(^OC_LDFLAGS=.*\)|\1 $(LDFLAGS)|' \
+        -i Makefile.config.in
 }
 
-
 ocaml_src_compile() {
-    # parallel builds are broken so often, its not even worth trying anymore
-    emake -j1 AR=${AR} world
-    emake -j1 AR=${AR} opt opt.opt
+    emake AR=${AR} world.opt
 }
 
 ocaml_src_install() {
-    emake BINDIR="${IMAGE}/usr/$(exhost --target)/bin"       \
-          LIBDIR="${IMAGE}/usr/$(exhost --target)/lib/ocaml" \
-          MANDIR="${IMAGE}/usr/share/man" install
-
-    # empty directory
-    edo rmdir "${IMAGE}/usr/$(exhost --target)/lib/ocaml/ocamldoc/custom"
+    default
 
     # Remove man directory if needed
     option !doc && edo rm -rf "${IMAGE}"/usr/share/man/man3
@@ -82,14 +73,6 @@ ocaml_src_install() {
     # headers
     dodir /usr/$(exhost --target)/include
     dosym /usr/$(exhost --target)/lib/ocaml/caml /usr/$(exhost --target)/include
-
-    # remove references to ${IMAGE}
-    edo sed \
-        -e "s:${IMAGE}::g" \
-        -i "${IMAGE}"/usr/$(exhost --target)/lib/ocaml/ld.conf
-    edo sed \
-        -e "s|^\(CAMLRUN=\).*|\1/usr/$(exhost --target)/bin/ocamlrun|" \
-        -i "${IMAGE}"/usr/$(exhost --target)/lib/ocaml/Makefile.config
 
     emagicdocs
 }
