@@ -14,16 +14,16 @@ high performance; a bytecode compiler, for increased portability;
 and an interactive loop, for experimentation and rapid development.
 "
 HOMEPAGE="
-http://caml.inria.fr/ocaml/index.en.html [[ description = [ Official homepage at Inria ] ]]
-http://ocaml.org/                        [[ description = [ Community-driven website   ] ]]
+https://caml.inria.fr/ocaml/index.en.html [[ description = [ Official homepage at Inria ] ]]
+https://ocaml.org/                        [[ description = [ Community-driven website   ] ]]
 "
 LICENCES="|| ( LGPL-2 QPL-1.0 )"
 
 MY_PNV=${PN}-$(ever replace 3 +)
-DOWNLOADS="http://caml.inria.fr/pub/distrib/${PN}-$(ever range 1-2)/${MY_PNV}.tar.xz"
+DOWNLOADS="https://caml.inria.fr/pub/distrib/${PN}-$(ever range 1-2)/${MY_PNV}.tar.xz"
 WORK="${WORKBASE}"/${MY_PNV}
 
-UPSTREAM_DOCUMENTATION="http://caml.inria.fr/resources/doc/index.en.html"
+UPSTREAM_DOCUMENTATION="https://caml.inria.fr/resources/doc/index.en.html"
 
 MYOPTIONS="
     doc      [[ description = [ Install OCaml's manpages ] ]]
